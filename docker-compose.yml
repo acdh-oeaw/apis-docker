@@ -4,14 +4,6 @@ services:
         web:
             build: .
             container_name: apis
-            environment:
-                    - APIS_DB_NAME=apis_package_full_18
-                    - APIS_DB_USER=apis
-                    - APIS_DB_PORT=3306
-                    - APIS_DB_PASSWORD=Sen147Gta
-                    - APIS_DB_HOST=100.92.49.181
-                    - APIS_BASE_BRANCH=mpr
-                    - DJANGO_SETTINGS_MODULE=apis.settings.server
             command: sh /start-apis/start.sh
             ports:
               - "8000:8000"
@@ -31,4 +23,9 @@ services:
                 - ./staticfiles:/staticfiles  
             depends_on:
                 - web
+            labels:
+                    - traefik.backend=nginx
+                    - traefik.frontend.rule=Host:mpr-test.sysiphos.arz.oeaw.ac.at
+                    - traefik.docker.network=web
+                    - traefik.port=80
 
